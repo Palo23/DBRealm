@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_fab">10dp</dimen>
+    <dimen name="dimen_magin_editext">10dp</dimen>
+    <dimen name="margin_cardview_categoria">10dp</dimen>
+    <dimen name="text_size_titulo">18sp</dimen>
+    <dimen name="with_image">80dp</dimen>
+    <dimen name="height_image">90dp</dimen>
+</resources>

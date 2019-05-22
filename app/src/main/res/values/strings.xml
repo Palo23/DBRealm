@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Realm</string>
+    <string name="hint_nombre">Nombre</string>
+    <string name="mensaje_alerta">Agregar persona</string>
+    <string name="toast_mensaje_nombre_vacio">Debe completar los campos</string>
+    <string name="hint_apellido">Apellido</string>
+    <string name="mensaje_editar_alert">Editar</string>
+    <string name="placeholder_apellido">Persona</string>
+</resources>
