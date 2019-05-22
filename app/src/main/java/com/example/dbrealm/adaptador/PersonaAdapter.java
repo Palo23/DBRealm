@@ -76,8 +76,8 @@ public class PersonaAdapter extends RecyclerView.Adapter<PersonaAdapter.ViewHold
 
         public ViewHolderPersona(View itemView){
             super(itemView);
-            txtNombre = itemView.findViewById(R.id.edtNombre);
-            txtApellido = itemView.findViewById(R.id.edtApellido);
+            txtNombre = itemView.findViewById(R.id.txtNombre);
+            txtApellido = itemView.findViewById(R.id.txtApellido);
 
         }
 

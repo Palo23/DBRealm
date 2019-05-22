@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
         <LinearLayout
-            android:padding="@dimen/margin_cardview_categoria"
+            android:padding ="@dimen/margin_cardview_categoria"
             android:gravity="center_vertical"
             android:background="?attr/selectableItemBackground"
             android:orientation="horizontal"
