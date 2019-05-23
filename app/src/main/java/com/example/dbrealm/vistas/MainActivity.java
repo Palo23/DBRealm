@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements RealmChangeListen
             public void onClick(DialogInterface dialogInterface, int i) {
                 String nombre = edtNombre.getText().toString().trim();
                 String apellido = edtApelido.getText().toString();
-                if (nombre.length()>0){
+                if (nombre.length()>0 && apellido.length()>0){
                     guardarPersona(nombre, apellido);
                 }else {
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_mensaje_nombre_vacio), Toast.LENGTH_SHORT).show();
@@ -188,9 +188,10 @@ public class MainActivity extends AppCompatActivity implements RealmChangeListen
     public void eliminarPersona(View view){
         PersonaModel personaModel = listaPersonas.get(recyclerViewPersona.getChildAdapterPosition(view));
         realm.beginTransaction();
-        assert personaModel != null;
-        personaModel.deleteFromRealm();
-        realm.commitTransaction();
+        if(personaModel != null){
+            personaModel.deleteFromRealm();
+            realm.commitTransaction();
+        }
     }
 
     @Override

@@ -73,12 +73,11 @@ public class PersonaAdapter extends RecyclerView.Adapter<PersonaAdapter.ViewHold
     public class ViewHolderPersona extends RecyclerView.ViewHolder {
         TextView txtNombre;
         TextView txtApellido;
-
+        TextView id;
         public ViewHolderPersona(View itemView){
             super(itemView);
             txtNombre = itemView.findViewById(R.id.txtNombre);
             txtApellido = itemView.findViewById(R.id.txtApellido);
-
         }
 
     }

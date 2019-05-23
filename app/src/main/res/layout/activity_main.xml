@@ -17,6 +17,7 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabNueva"
         android:layout_gravity="bottom|right"
+        android:src="@drawable/ic_agregar"
         android:layout_margin="@dimen/margin_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
