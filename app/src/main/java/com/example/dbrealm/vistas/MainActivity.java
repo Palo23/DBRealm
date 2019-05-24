@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.dbrealm.R;
-import com.example.dbrealm.adaptador.PersonaAdapter;
-import com.example.dbrealm.modelos.PersonaModel;
+import com.example.dbrealm.adaptador.NotitasAdapter;
+import com.example.dbrealm.modelos.NotitasModel;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,16 +22,16 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements RealmChangeListener<RealmResults<PersonaModel>> {
+public class MainActivity extends AppCompatActivity implements RealmChangeListener<RealmResults<NotitasModel>> {
 
 
     public Realm realm;
 
     private FloatingActionButton fabNueva;
 
-    private RealmResults<PersonaModel> listaPersonas;
-    private RecyclerView recyclerViewPersona;
-    private PersonaAdapter personaAdapter;
+    private RealmResults<NotitasModel> listaNotas;
+    private RecyclerView recyclerViewNotas;
+    private NotitasAdapter notitasAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity implements RealmChangeListen
 
         fabNueva = findViewById(R.id.fabNueva);
 
-        listaPersonas = realm.where(PersonaModel.class).findAll();
-        listaPersonas.addChangeListener(this);
-        recyclerViewPersona = findViewById(R.id.recyclerPersona);
-        recyclerViewPersona.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        personaAdapter = new PersonaAdapter(getApplicationContext(), listaPersonas);
-        recyclerViewPersona.setAdapter(personaAdapter);
+        listaNotas = realm.where(NotitasModel.class).findAll();
+        listaNotas.addChangeListener(this);
+        recyclerViewNotas = findViewById(R.id.recyclerPersona);
+        recyclerViewNotas.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        notitasAdapter = new NotitasAdapter(getApplicationContext(), listaNotas);
+        recyclerViewNotas.setAdapter(notitasAdapter);
 
         listenOnClick();
 
@@ -63,20 +63,20 @@ public class MainActivity extends AppCompatActivity implements RealmChangeListen
         fabNueva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertNuevaPersona();
+                alertNuevaNota();
             }
         });
 
-        personaAdapter.setOnClickListener(new View.OnClickListener() {
+        notitasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PersonaModel personaModel = listaPersonas.get(recyclerViewPersona.getChildAdapterPosition(view));
-                alertEditarPersona(personaModel);
+                NotitasModel notitasModel = listaNotas.get(recyclerViewNotas.getChildAdapterPosition(view));
+                alertEditarNota(notitasModel);
             }
         });
 
 
-        personaAdapter.setOnLongClickListener(new View.OnLongClickListener() {
+        notitasAdapter.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements RealmChangeListen
                         .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                eliminarPersona(view);
+                                eliminarNota(view);
                             }
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -102,22 +102,22 @@ public class MainActivity extends AppCompatActivity implements RealmChangeListen
 
     }
 
-    public void alertNuevaPersona(){
+    public void alertNuevaNota(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        final View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.nueva_persona, null);
+        final View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.nueva_notita, null);
         builder.setView(view);
 
-        final EditText edtNombre = view.findViewById(R.id.edtNombre);
-        final EditText edtApelido = view.findViewById(R.id.edtApellido);
+        final EditText edtTitulo = view.findViewById(R.id.edtTitulo);
+        final EditText edtDescripcion = view.findViewById(R.id.edtDescripcion);
 
-        builder.setMessage("Agregar Persona");
+        builder.setMessage("Agregar");
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String nombre = edtNombre.getText().toString().trim();
-                String apellido = edtApelido.getText().toString();
-                if (nombre.length()>0 && apellido.length()>0){
-                    guardarPersona(nombre, apellido);
+                String nombre = edtTitulo.getText().toString().trim();
+                String descripcion = edtDescripcion.getText().toString();
+                if (nombre.length()>0 && descripcion.length()>0){
+                    guardarNota(nombre, descripcion);
                 }else {
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_mensaje_nombre_vacio), Toast.LENGTH_SHORT).show();
                 }
@@ -137,28 +137,28 @@ public class MainActivity extends AppCompatActivity implements RealmChangeListen
     }
 
 
-    public void alertEditarPersona(final PersonaModel personaModel){
+    public void alertEditarNota(final NotitasModel notitasModel){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        final View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.nueva_persona, null);
+        final View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.nueva_notita, null);
         builder.setView(view);
 
-        final EditText edtNombre = view.findViewById(R.id.edtNombre);
-        final EditText edtApellido = view.findViewById(R.id.edtApellido);
+        final EditText edtTitulo = view.findViewById(R.id.edtTitulo);
+        final EditText edtDescripcion = view.findViewById(R.id.edtDescripcion);
 
-        edtNombre.setText(personaModel.getNombre());
-        edtApellido.setText(personaModel.getApellido());
+        edtTitulo.setText(notitasModel.getTitulo());
+        edtDescripcion.setText(notitasModel.getDescripcion());
 
-        edtNombre.setSelection(edtNombre.getText().length());
+        edtTitulo.setSelection(edtTitulo.getText().length());
 
         builder.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String nombrePersona = edtNombre.getText().toString().trim();
-                String apellidoPersona = edtApellido.getText().toString();
-                if (nombrePersona.length()>0){
+                String nombreNota = edtTitulo.getText().toString().trim();
+                String descNota = edtDescripcion.getText().toString();
+                if (nombreNota.length()>0){
                     realm.beginTransaction();
-                    personaModel.setNombre(nombrePersona);
-                    personaModel.setApellido(apellidoPersona);
+                    notitasModel.setTitulo(nombreNota);
+                    notitasModel.setDescripcion(descNota);
                     realm.commitTransaction();
                 }else{
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_mensaje_nombre_vacio), Toast.LENGTH_SHORT).show();
@@ -178,25 +178,25 @@ public class MainActivity extends AppCompatActivity implements RealmChangeListen
 
     }
 
-    public void guardarPersona(String nombre, String apellido){
+    public void guardarNota(String nombre, String apellido){
         realm.beginTransaction();
-        PersonaModel personaModel = new PersonaModel(nombre, apellido);
-        realm.copyToRealm(personaModel);
+        NotitasModel notitasModel = new NotitasModel(nombre, apellido);
+        realm.copyToRealm(notitasModel);
         realm.commitTransaction();
     }
 
-    public void eliminarPersona(View view){
-        PersonaModel personaModel = listaPersonas.get(recyclerViewPersona.getChildAdapterPosition(view));
+    public void eliminarNota(View view){
+        NotitasModel notitasModel = listaNotas.get(recyclerViewNotas.getChildAdapterPosition(view));
         realm.beginTransaction();
-        if(personaModel != null){
-            personaModel.deleteFromRealm();
+        if(notitasModel != null){
+            notitasModel.deleteFromRealm();
             realm.commitTransaction();
         }
     }
 
     @Override
-    public void onChange(@NonNull RealmResults<PersonaModel> personaModels) {
-        personaAdapter.notifyDataSetChanged();
+    public void onChange(@NonNull RealmResults<NotitasModel> notitasModels) {
+        notitasAdapter.notifyDataSetChanged();
     }
 
 

@@ -9,7 +9,7 @@ android:layout_height="match_parent">
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/edtNombre"
+            android:id="@+id/edtTitulo"
             android:hint="@string/hint_nombre"
             android:layout_margin="@dimen/dimen_magin_editext"
             android:layout_width="match_parent"
@@ -21,8 +21,8 @@ android:layout_height="match_parent">
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <EditText
-        android:id="@+id/edtApellido"
-        android:hint="@string/hint_apellido"
+        android:id="@+id/edtDescripcion"
+        android:hint="@string/hint_descripcion"
         android:layout_margin="@dimen/dimen_magin_editext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

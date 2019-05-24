@@ -2,7 +2,7 @@ package com.example.dbrealm.aplicacion;
 
 import android.app.Application;
 
-import com.example.dbrealm.modelos.PersonaModel;
+import com.example.dbrealm.modelos.NotitasModel;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,7 +13,7 @@ import io.realm.RealmResults;
 
 public class Aplicacion extends Application {
 
-    public static AtomicInteger personaId = new AtomicInteger();
+    public static AtomicInteger notaId = new AtomicInteger();
 
     @Override
     public void onCreate(){
@@ -21,7 +21,7 @@ public class Aplicacion extends Application {
         Realm.init(getApplicationContext());
         setUpConfig();
         Realm realm = Realm.getDefaultInstance();
-        personaId = getByTabla(realm, PersonaModel.class);
+        notaId = getByTabla(realm, NotitasModel.class);
         realm.close();
     }
 
